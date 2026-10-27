@@ -56,9 +56,13 @@ State: number of games in the `games` attribute.
 | `live_count` / `final_count` / `pre_count` | Games by state |
 | `next_game` / `last_game` | Filled when there are no games today and "show last/next game" is on |
 
-Each game has `game_state` (0 = not started, 1 = live, 2 = final), `status` (`2nd`, `Final/OT`,
-`Final/SO`, …), `start_time` (UTC ISO 8601), `home_team`, `home_abbr`, `home_logo`, `home_score`,
+Each game has `game_state` (0 = not started, 1 = live, 2 = final), `status`, `start_time` (UTC ISO 8601),
+`start_time_local` (`19:00`, in Home Assistant's time zone), `home_team`, `home_abbr`, `home_logo`, `home_score`,
 the same `away_*` fields, `venue`, `round` and `season`.
+
+`status` is the start time for games that haven't started (`19:00` today, `Fri 30/10 19:00` on
+another day), the period while live (`1st`, `2nd`, `3rd`, `OT`, `Shootout`), and `Final`, `Final/OT` or
+`Final/SO` afterwards. MyScoreboard Card shows it in the right-hand column.
 
 ## Limitations of the free API key
 

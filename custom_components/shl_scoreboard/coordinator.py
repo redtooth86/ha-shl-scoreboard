@@ -8,7 +8,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
-from .api import SportsDBClient, SportsDBError, build_games
+from .api import SportsDBClient, SportsDBError, build_games, format_start
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -64,9 +64,24 @@ class SHLCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         if not games:
             games = [g for g in (last_game, next_game) if g]
 
+        for game in games:
+            self._add_local_start(game, local_today)
+
         return {
             "games": games,
             "today_count": len(today),
             "next_game": next_game,
             "last_game": last_game,
         }
+
+    @staticmethod
+    def _add_local_start(game: dict[str, Any], local_today) -> None:
+        """Add start_time_local, and show it as the status of games not yet started."""
+        start = dt_util.parse_datetime(game["start_time"] or "")
+        if start is None:
+            game["start_time_local"] = None
+            return
+        local_start = dt_util.as_local(start)
+        game["start_time_local"] = local_start.strftime("%H:%M")
+        if game["game_state"] == 0 and not game["status"]:
+            game["status"] = format_start(local_start, local_today)

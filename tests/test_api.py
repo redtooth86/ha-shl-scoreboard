@@ -66,3 +66,11 @@ def test_build_games_dedupes_and_sorts():
     early = event(idEvent="a", strTimestamp="2026-10-27T16:00:00")
     games = api.build_games([late, early, late], None)
     assert [g["id"] for g in games] == ["a", "b"]
+
+
+def test_format_start_today_and_other_day():
+    from datetime import date, datetime
+
+    start = datetime(2026, 10, 30, 19, 0)
+    assert api.format_start(start, date(2026, 10, 30)) == "19:00"
+    assert api.format_start(start, date(2026, 10, 27)) == "Fri 30/10 19:00"

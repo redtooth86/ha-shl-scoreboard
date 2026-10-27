@@ -5,7 +5,7 @@ This module has no Home Assistant imports so it can be tested on its own.
 from __future__ import annotations
 
 import logging
-from datetime import date
+from datetime import date, datetime
 from typing import Any
 
 import aiohttp
@@ -152,6 +152,14 @@ def matches_teams(game: dict[str, Any], teams: list[str] | None) -> bool:
         if any(w in name for w in wanted):
             return True
     return False
+
+
+def format_start(local_start: datetime, today: date) -> str:
+    """Start time for the card's status column: "19:00", or "Thu 30/10 19:00" on another day."""
+    clock = local_start.strftime("%H:%M")
+    if local_start.date() == today:
+        return clock
+    return f"{local_start.strftime('%a')} {local_start.day}/{local_start.month} {clock}"
 
 
 def build_games(
