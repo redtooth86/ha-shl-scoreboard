@@ -1,0 +1,38 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "SHL Scoreboard",
+        "description": "Track Swedish Hockey League games using TheSportsDB. The default API key is TheSportsDB's free public key.",
+        "data": {
+          "name": "Sensor name",
+          "teams": "Only these teams (optional, comma-separated names or abbreviations, e.g. FHC, Luleå)",
+          "show_upcoming": "Show the last and next game when there are no games today",
+          "scan_interval": "Poll interval in seconds (60-3600)",
+          "api_key": "TheSportsDB API key"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach TheSportsDB or the API key is invalid.",
+      "rate_limited": "TheSportsDB rate limit reached. Wait a couple of minutes and try again."
+    },
+    "abort": {
+      "already_configured": "A sensor with this name is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "SHL Scoreboard options",
+        "data": {
+          "name": "Sensor name",
+          "teams": "Only these teams (optional, comma-separated names or abbreviations)",
+          "show_upcoming": "Show the last and next game when there are no games today",
+          "scan_interval": "Poll interval in seconds (60-3600)",
+          "api_key": "TheSportsDB API key"
+        }
+      }
+    }
+  }
+}
